@@ -1,3 +1,5 @@
+# Quoty - create content to inspire
+
 Welcome to Quoty Application, This application is designed to see Quotes everyday.
 
 ## Features
