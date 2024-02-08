@@ -52,7 +52,7 @@ def register():
         db.session.commit()
         flash(f"Account for {form.username.data} successfully created", 'success')
         return redirect(url_for('login'))
-    return render_template("register.html", form=form)
+    return render_template("register.html", form=form, quotes=quotes)
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
@@ -66,7 +66,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash("Invalid Credentials, Please try again.!", 'danger')
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, quotes=quotes)
 
 @app.route("/logout")
 def logout():
