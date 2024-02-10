@@ -1,4 +1,4 @@
-#!/home/nehad/Quoty_App/quote/bin/python3
+#!/home/abdul/Quoty_App/quote/bin/python3
 """
     Main file for our blog
 """
