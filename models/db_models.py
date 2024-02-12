@@ -18,18 +18,18 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(20), unique=True, nullable=False)
     email = db.Column(db.String(30), unique=True, nullable=False)
     password = db.Column(db.String(120), nullable=False)
-    tweets = db.relationship('Tweet', back_populates='author')
+    quotes = db.relationship('Quote', back_populates='author')
 
     def __repr__(self):
         return f"User ({self.username} - {self.email})"
 
-class Tweet(db.Model):
-    __tablename__ = "tweets"
+class Quote(db.Model):
+    __tablename__ = "quotes"
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     created_on = db.Column(db.DateTime(), default=datetime.utcnow, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
-    author = db.relationship('User', back_populates='tweets')
+    author = db.relationship('User', back_populates='quotes')
 
     def __repr__(self):
-        return f"Tweet ({self.author} - {self.created_on})"
+        return f"Quote ({self.content} - {self.created_on})"

@@ -4,44 +4,41 @@
 
 from flask import render_template, url_for, flash, redirect, send_from_directory
 from models import app, db, bcrypt
-from models.form import RegistrationForm, LoginForm
-from models.db_models import User, Tweet
+from models.form import RegistrationForm, LoginForm, SubmitQuoteForm
+from models.db_models import User, Quote
 from flask_login import login_user, current_user, logout_user
 
-quotes = [
-    {
-        'content': "People's effort is directly proportional to value",
-        'author': 'abdul',
-        'created_on': '2023-04-12'
-    },
-    {
-        'content': "You walk the way you're broken",
-        'author': 'moha',
-        'created_on': '2023-10-20'
-    },
-    {
-        'content': "Two heads are better than one",
-        'author': 'alex',
-        'created_on': '2022-06-22'
-    },
-    {
-        'content': "Love is like a song, it gets boring with time, can't be played forever and plays for a specific time",
-        'author': 'ALX',
-        'created_on': '2020-11-10'
-    }
-]
+
+def get_quotes(order_by='created_on', descending=True):
+    if descending:
+        q = Quote.query.order_by(getattr(Quote, order_by).desc()).all()
+    else:
+        q = Quote.query.order_by(getattr(Quote, order_by)).all()
+    return q
+
+
 
 @app.route("/")
-@app.route("/home")
-def home():
-    return render_template("home.html", quotes=quotes)
+def index():
+    quotes = get_quotes()
+    return render_template("index.html", quotes=quotes)
 
-# @app.route("/about")
-# def about():
-#     return render_template("about.html", title="About")
+@app.route("/home", methods=['GET', 'POST'])
+def home():
+    quotes = get_quotes()
+    form = SubmitQuoteForm()
+    if form.validate_on_submit():
+        user = User.query.get(1)
+        quote_content = form.content.data
+        q = Quote(content=quote_content, author=user)
+        db.session.add(q)
+        db.session.commit()
+        return redirect(url_for('home'))
+    return render_template("home.html", title="Home", form=form, quotes=quotes)
 
 @app.route("/register", methods=('GET', 'POST'))
 def register():
+    quotes = get_quotes()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
@@ -66,7 +63,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash("Invalid Credentials, Please try again.!", 'danger')
-    return render_template("login.html", form=form, quotes=quotes)
+    return render_template("login.html", form=form)
 
 @app.route("/logout")
 def logout():
