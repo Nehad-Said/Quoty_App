@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<main class="container">
+
+	<div class="row g-5 d-flex justify-content-center text-center">
+		<div class="col-md-12 py-3">
+			<h1>404</h1>
+			<h2 class="text-muted mb-3">Error Page!</h2>
+			<h4 class="fst-italic">Ouch!!!! Sorry, we can't find what you're looking for at the moment..</h4>
+			<div class="border-top pt-3">
+				<small class="text-muted">
+					Need direction? <a class="ml-2" href="{{ url_for('index') }}">Your way home</a>
+				</small>
+			</div>
+		</div>
+	</div>
+</main>
+
+
+{% endblock content %}

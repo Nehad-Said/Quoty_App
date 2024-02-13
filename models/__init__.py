@@ -13,7 +13,7 @@ login_manager = LoginManager(app)
 login_manager.login_view = 'login'
 login_manager.login_message = "You need to be logged in to access this page."
 
-from models import routes
+from models import routes, error
 
 with app.app_context():
     db.create_all()
