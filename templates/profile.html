@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="content-section my-3">
+	<h1>User: {{ user.username }}</h1>
+	<small>Email: {{ user.email }}</small>
+	<div class="row">
+		<div class="col-md-8">
+			<h4 class="fst-italic my-3">My quotes.</h4>
+			{% for q in user.quotes %}
+			<article class="blog-post">
+				<div
+					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					<div class="col p-4 d-flex flex-column position-static">
+						<p class="card-text mb-auto">
+							"{{ q.content }}"
+						</p>
+
+						<div class="mb-1 text-body-secondary">On. {{ q.created_on }}</div>
+					</div>
+				</div>
+			</article>
+			{% endfor %}
+		</div>
+		<div class="col-md-4"></div>
+	</div>
+</div>
+
+{% endblock content %}

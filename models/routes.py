@@ -6,7 +6,7 @@ from flask import render_template, url_for, flash, redirect, send_from_directory
 from models import app, db, bcrypt
 from models.form import RegistrationForm, LoginForm, SubmitQuoteForm
 from models.db_models import User, Quote
-from flask_login import login_user, current_user, logout_user
+from flask_login import login_user, current_user, logout_user, login_required
 
 
 def get_quotes(order_by='created_on', descending=True):
@@ -24,17 +24,29 @@ def index():
     return render_template("index.html", quotes=quotes)
 
 @app.route("/home", methods=['GET', 'POST'])
+@login_required
 def home():
     quotes = get_quotes()
     form = SubmitQuoteForm()
+
     if form.validate_on_submit():
-        user = User.query.get(1)
-        quote_content = form.content.data
-        q = Quote(content=quote_content, author=user)
-        db.session.add(q)
-        db.session.commit()
-        return redirect(url_for('home'))
+        if current_user.is_authenticated:
+            user = current_user
+            quote_content = form.content.data
+            q = Quote(content=quote_content, author=user)
+            db.session.add(q)
+            db.session.commit()
+            return redirect(url_for('home'))
+        
     return render_template("home.html", title="Home", form=form, quotes=quotes)
+
+
+@app.route("/profile/<username>", methods=['GET', 'POST'])
+@login_required
+def profile(username):
+    user = User.query.filter_by(username=username).first_or_404()
+    return render_template('profile.html', user=user)
+
 
 @app.route("/register", methods=('GET', 'POST'))
 def register():
@@ -53,6 +65,7 @@ def register():
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
+    quotes = get_quotes()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -60,15 +73,16 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user)
+            flash(f"Welcome back {user.username}", 'success')
             return redirect(url_for('home'))
         else:
             flash("Invalid Credentials, Please try again.!", 'danger')
-    return render_template("login.html", form=form)
+    return render_template("login.html", form=form, quotes=quotes)
 
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 @app.route('/static/<path:filename>')
 def serve_static(filename):

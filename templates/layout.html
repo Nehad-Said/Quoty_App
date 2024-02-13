@@ -33,8 +33,14 @@
 						href="{{ url_for('index') }}">Quoty</a>
 				</div>
 				<div class="col-4 d-flex justify-content-end align-items-center">
+					{% if current_user.is_anonymous %}
 					<a class="btn btn-sm btn-outline-secondary" href="{{ url_for('login') }}">Login</a>
 					<a class="btn btn-sm btn-outline-secondary m-1" href="{{ url_for('register') }}">Sign up</a>
+					{% else %}
+					<a class="btn btn-sm btn-outline-secondary m-1"
+						href="{{ url_for('profile', username=current_user.username) }}">Profile</a>
+					<a class="btn btn-sm btn-outline-secondary" href="{{ url_for('logout') }}">Logout</a>
+					{% endif %}
 				</div>
 			</div>
 		</header>
@@ -43,8 +49,9 @@
 		{% with messages = get_flashed_messages(with_categories=true) %}
 		{% if messages %}
 		{% for category, message in messages %}
-		<div class="alert alert-{{ category }}">
+		<div class="alert alert-{{ category or 'warning' }}" role="alert">
 			{{ message }}
+			<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
 		</div>
 		{% endfor %}
 		{% endif %}
