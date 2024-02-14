@@ -33,3 +33,7 @@ class LoginForm(FlaskForm):
 class SubmitQuoteForm(FlaskForm):
     content = TextAreaField('content', validators=[DataRequired(), Length(max=300)])
     submit = SubmitField('Post')
+
+class EditQuoteForm(FlaskForm):
+    content = TextAreaField('content', validators=[DataRequired(), Length(max=300)])
+    submit = SubmitField('Save')

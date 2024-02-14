@@ -1,5 +1,6 @@
 {% extends "layout.html" %}
 {% block content %}
+
 <div class="content-section my-3">
 	<h1>User: {{ user.username }}</h1>
 	<small>Email: {{ user.email }}</small>
@@ -11,12 +12,75 @@
 				<div
 					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					<div class="col p-4 d-flex flex-column position-static">
-						<p class="card-text mb-auto">
+
+
+						<p class="card-text mb-auto mt-3 ">
 							"{{ q.content }}"
 						</p>
 
 						<div class="mb-1 text-body-secondary">On. {{ q.created_on }}</div>
+						<!-- Button trigger modal -->
+						<button type="button" id="edit_quote_{{ q.id }}" class="btn btn-info edit_quote_btn" data-bs-toggle="modal"
+							data-bs-target="#editquote_{{ q.id }}" data-quote-id="{{ q.id }}" data-quote-content="{{ q.content }}">Edit
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-pencil-square" viewBox="0 0 16 16">
+								<path
+									d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z" />
+								<path fill-rule="evenodd"
+									d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z" />
+							</svg>
+						</button>
+						<form action="{{ url_for('del_q', username=user.username, id=q.id) }}" method="post">
+							<button type="submit" id="del_quote_{{ q.id }}" class="btn btn-danger del_quote_btn" >X
+							</button>
+						</form>
+
+						<!-- Modal -->
+						<div class="modal fade" id="editquote_{{ q.id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+							tabindex="-1" aria-labelledby="editquoteLabel" aria-hidden="true">
+							<div class="modal-dialog">
+
+								<div class="modal-content">
+									<div class="modal-header">
+										<h1 class="modal-title fs-5" id="editquoteLabel">Edit Quote</h1>
+										<button type="button" class="btn-close" data-bs-dismiss="modal"
+											aria-label="Close"></button>
+									</div>
+									<form action="{{ url_for('edit_q', username=user.username, id=q.id) }}"
+										method="post">
+										<div class="modal-body">
+											{{ form.hidden_tag() }}
+											<div class="form-floating">
+
+												{% if form.content.errors %}
+												{{ form.content(class="form-control form-control-lg is-invalid") }}
+												<div class="invalid-feedback">
+													{% for error in form.content.errors %}
+													<span>{{ error }}</span>
+													{% endfor %}
+												</div>
+												{% else %}
+												<textarea id="EditQuoteForm" name="edit_quote" class="form-control"
+													style="height: 100px;">{{ q.content }}</textarea>
+
+												{% endif %}
+
+												<label for="EditQuoteForm">Edit</label>
+											</div>
+											<div class="modal-footer form-group">
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">Cancel</button>
+												{{ form.submit(type="submit", class="btn
+												btn-primary my-2") }}
+											</div>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
 					</div>
+
 				</div>
 			</article>
 			{% endfor %}

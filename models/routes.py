@@ -2,9 +2,9 @@
     Module for the tweets routes
 """
 
-from flask import render_template, url_for, flash, redirect, send_from_directory
+from flask import render_template, url_for, flash, redirect, send_from_directory, request
 from models import app, db, bcrypt
-from models.form import RegistrationForm, LoginForm, SubmitQuoteForm
+from models.form import RegistrationForm, LoginForm, SubmitQuoteForm, EditQuoteForm
 from models.db_models import User, Quote
 from flask_login import login_user, current_user, logout_user, login_required
 
@@ -36,6 +36,7 @@ def home():
             q = Quote(content=quote_content, author=user)
             db.session.add(q)
             db.session.commit()
+            flash("Quote succesfully added", "success")
             return redirect(url_for('home'))
         
     return render_template("home.html", title="Home", form=form, quotes=quotes)
@@ -44,8 +45,39 @@ def home():
 @app.route("/profile/<username>", methods=['GET', 'POST'])
 @login_required
 def profile(username):
+    form = EditQuoteForm()
     user = User.query.filter_by(username=username).first_or_404()
-    return render_template('profile.html', user=user)
+
+    return render_template('profile.html', user=user, form=form)
+
+@app.route('/profile/<username>/edit/<id>', methods=['GET', 'POST'])
+@login_required
+def edit_q(username, id):
+    quote = Quote.query.get(id)
+    new_quote = request.form.get('edit_quote')
+
+    # Update quote content in the database
+    quote.content = new_quote
+    db.session.commit()
+    flash("Quote succesfully updated", "success")    
+
+    return redirect(url_for('profile', username=username))
+
+
+@app.route('/profile/<username>/del/<id>', methods=['GET', 'POST'])
+@login_required
+def del_q(username, id):
+    quote = Quote.query.get(id)
+
+    if quote:
+        db.session.delete(quote)
+        db.session.commit()
+        flash("Quote deleted succesfully", "success")
+
+    else:
+        flash("Quote not found", "success")    
+
+    return redirect(url_for('profile', username=username))
 
 
 @app.route("/register", methods=('GET', 'POST'))
