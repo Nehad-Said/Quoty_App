@@ -4,7 +4,7 @@ Welcome to Quoty Application, This application is designed to inspire, motivate 
 Quote is a platform where you can view quotes from different authors in whichever category, create and own your own quotes and interact with others through our opinions sections.
 
 ### Home page.
-The good thing about quoty is that u dont need to be a member to have access, you can just visit and scroll through different quotes of other users however if you want to be part of the impact then u definetly have to create and account. Visit [text](http://www.quoty.tech/) for more information.
+The good thing about quoty is that u dont need to be a member to have access, you can just visit and scroll through different quotes of other users however if you want to be part of the impact then u definetly have to create and account. Visit [quoty](http://www.quoty.tech/) for more information.
 
 ## Features
 
@@ -15,7 +15,7 @@ The good thing about quoty is that u dont need to be a member to have access, yo
 
 ### Contributors
 This project is done by 
-Abdul Rahman [text](https://github.com/Abdul17rahman)
-Nehad Said [text](https://github.com/Nehad-Said)
+Abdul Rahman [abdulrahman](https://github.com/Abdul17rahman)
+Nehad Said [nehad](https://github.com/Nehad-Said)
 
 
