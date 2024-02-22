@@ -38,7 +38,7 @@ Source code for this project is available and free to use just by clonning this 
 
 ### Contributors
 This project is done by 
-Abdul Rahman [abdulrahman](https://github.com/Abdul17rahman)
+Abdul Rahman [abdulrahman](https://github.com/Abdul17rahman) - abdulnsamba@gmail.com
 Nehad Said [nehad](https://github.com/Nehad-Said)
 
 
