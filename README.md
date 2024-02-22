@@ -21,19 +21,19 @@ Simple and easy to use, just visit our link [quoty](http://www.quoty.tech/) and 
 ### Installation:
 Source code for this project is available and free to use just by clonning this repo however there are a key things to note:
 
--**Technologies:**
+**Technologies:**
 	-Python as the programming language
 	-Flask as the backend framework
 	-MySQL as the database server
 	-SQLAlchemy as the ORM
  Please also refer to the req.txt file that has all the python packages and library needed for the project.
 
--**Config:**
+**Config:**
 	You need to configure the eviroment variables such the secret key, sqluser, sqldatabase, sqlpassword and many others
 
- -**Others:**
+**Others:**
 	Please note that the project runs within a virtual enviroment and we recommed deleting the folder named quote after donwloading the code and then activate and use your own virtual enviroment.
-	Also in the entry point/main.py file, for development purpose please change the shebag at the beginning of the file and add a shebag according to your development enviroment.
+	Also in the main.py file, for development purpose please change the shebag at the beginning of the file and add a shebag according to your development enviroment.
 
 ### Contributors:
 This project is done by 
