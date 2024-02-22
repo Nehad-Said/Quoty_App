@@ -7,26 +7,21 @@ from models import app, db, bcrypt
 from models.form import RegistrationForm, LoginForm, SubmitQuoteForm, EditQuoteForm
 from models.db_models import User, Quote
 from flask_login import login_user, current_user, logout_user, login_required
-
-
-def get_quotes(order_by='created_on', descending=True):
-    if descending:
-        q = Quote.query.order_by(getattr(Quote, order_by).desc()).all()
-    else:
-        q = Quote.query.order_by(getattr(Quote, order_by)).all()
-    return q
+from models.utils import getRandQuote, get_quotes
 
 
 
 @app.route("/")
 def index():
     quotes = get_quotes()
-    return render_template("index.html", quotes=quotes)
+    randQuotes = getRandQuote()
+    return render_template("index.html", quotes=quotes, randQ = randQuotes)
 
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
     quotes = get_quotes()
+    randQuotes = getRandQuote()
     form = SubmitQuoteForm()
 
     if form.validate_on_submit():
@@ -39,7 +34,7 @@ def home():
             flash("Quote succesfully added", "success")
             return redirect(url_for('home'))
         
-    return render_template("home.html", title="Home", form=form, quotes=quotes)
+    return render_template("home.html", title="Home", form=form, quotes=quotes, randQ = randQuotes)
 
 
 @app.route("/profile/<username>", methods=['GET', 'POST'])
@@ -83,6 +78,7 @@ def del_q(username, id):
 @app.route("/register", methods=('GET', 'POST'))
 def register():
     quotes = get_quotes()
+    randQuotes = getRandQuote()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = RegistrationForm()
@@ -93,11 +89,12 @@ def register():
         db.session.commit()
         flash(f"Account for {form.username.data} successfully created", 'success')
         return redirect(url_for('login'))
-    return render_template("register.html", form=form, quotes=quotes)
+    return render_template("register.html", form=form, quotes=quotes, randQ = randQuotes)
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
     quotes = get_quotes()
+    randQuotes = getRandQuote()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
     form = LoginForm()
@@ -109,7 +106,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash("Invalid Credentials, Please try again.!", 'danger')
-    return render_template("login.html", form=form, quotes=quotes)
+    return render_template("login.html", form=form, quotes=quotes, randQ = randQuotes)
 
 @app.route("/logout")
 def logout():
