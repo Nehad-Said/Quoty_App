@@ -7,20 +7,22 @@ from models import app, db, bcrypt
 from models.form import RegistrationForm, LoginForm, SubmitQuoteForm, EditQuoteForm
 from models.db_models import User, Quote
 from flask_login import login_user, current_user, logout_user, login_required
-from models.utils import getRandQuote, get_quotes
+from models.utils import getRandQuote, get_quotes, format_post_date
 
 
 
 @app.route("/")
 def index():
-    quotes = get_quotes()
+    page = request.args.get('page', 1, type=int)
+    quotes = get_quotes(page)
     randQuotes = getRandQuote()
-    return render_template("index.html", quotes=quotes, randQ = randQuotes)
+    return render_template("index.html", quotes=quotes, randQ = randQuotes, date_format=format_post_date)
 
 @app.route("/home", methods=['GET', 'POST'])
 @login_required
 def home():
-    quotes = get_quotes()
+    page = request.args.get('page', 1, type=int)
+    quotes = get_quotes(page)
     randQuotes = getRandQuote()
     form = SubmitQuoteForm()
 
@@ -34,7 +36,7 @@ def home():
             flash("Quote succesfully added", "success")
             return redirect(url_for('home'))
         
-    return render_template("home.html", title="Home", form=form, quotes=quotes, randQ = randQuotes)
+    return render_template("home.html", title="Home", form=form, quotes=quotes, randQ = randQuotes, date_format=format_post_date)
 
 
 @app.route("/profile/<username>", methods=['GET', 'POST'])
@@ -43,7 +45,7 @@ def profile(username):
     form = EditQuoteForm()
     user = User.query.filter_by(username=username).first_or_404()
 
-    return render_template('profile.html', user=user, form=form)
+    return render_template('profile.html', user=user, form=form, date_format=format_post_date)
 
 @app.route('/profile/<username>/edit/<id>', methods=['GET', 'POST'])
 @login_required
@@ -77,7 +79,6 @@ def del_q(username, id):
 
 @app.route("/register", methods=('GET', 'POST'))
 def register():
-    quotes = get_quotes()
     randQuotes = getRandQuote()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -89,11 +90,10 @@ def register():
         db.session.commit()
         flash(f"Account for {form.username.data} successfully created", 'success')
         return redirect(url_for('login'))
-    return render_template("register.html", form=form, quotes=quotes, randQ = randQuotes)
+    return render_template("register.html", form=form, randQ = randQuotes)
 
 @app.route("/login", methods=('GET', 'POST'))
 def login():
-    quotes = get_quotes()
     randQuotes = getRandQuote()
     if current_user.is_authenticated:
         return redirect(url_for('home'))
@@ -106,7 +106,7 @@ def login():
             return redirect(url_for('home'))
         else:
             flash("Invalid Credentials, Please try again.!", 'danger')
-    return render_template("login.html", form=form, quotes=quotes, randQ = randQuotes)
+    return render_template("login.html", form=form, randQ = randQuotes)
 
 @app.route("/logout")
 def logout():
