@@ -5,12 +5,12 @@
 <main class="container">
 	<div class="row g-5 my-1">
 		<div class="col-md-8">
-			<h4 class="fst-italic">Quoty.! Developed to inspire.</h4>
+			<h4 class="fst-italic custom-primary">Quoty.! Developed to inspire.</h4>
 			{% for quote in quotes %}
 
 			<article class="blog-post">
 				<div
-					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					class="row g-0 border rounded quote-bg overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					<div class="col p-4 d-flex flex-column position-static">
 						<p class="card-text mb-auto">
 							"{{ quote.content }}"

@@ -1,3 +1,59 @@
+/* Override color variables. */
+:root {
+  --primary: #424769;
+  --secondary: #35374B;
+  --text-bg: #424769;
+  --form-cl: #11999E;
+  --link-cl: #0093AB;
+  --random-cl: #11999E;
+}
+
+.custom-primary {
+  color: var(--primary);
+}
+
+
+.custom-bg {
+  background-color: var(--primary);
+  color: white;
+}
+
+.text-bg{
+  background-color: var(--text-bg);
+  color: white;
+}
+.form-bg {
+  background-color: var(--form-cl);
+  font-weight: 300;
+  color: white;
+  border-radius: 10px;
+}
+.random-quote {
+  background-color: var(--random-cl);
+  color: var(--secondary);
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.quote-bg {
+  background-color: var(--random-cl);
+  color: white;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 350;
+}
+
+a {
+  text-decoration: none;
+  color: var(--link-cl);
+}
+
+/* Remove the padding from containers */
+.cont-header {
+ padding-left: 0%;
+ padding-right: 0%;
+}
+
 .bd-placeholder-img {
   font-size: 1.125rem;
   text-anchor: middle;

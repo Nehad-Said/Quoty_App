@@ -10,7 +10,7 @@
 			{% for q in user.quotes %}
 			<article class="blog-post">
 				<div
-					class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+					class="row g-0 border rounded quote-bg overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
 					<div class="col p-4 d-flex flex-column position-static">
 
 
@@ -20,7 +20,7 @@
 
 						<div class="mb-1 text-body-secondary">{{ date_format(q.created_on) }}</div>
 						<!-- Button trigger modal -->
-						<button type="button" id="edit_quote_{{ q.id }}" class="btn btn-info edit_quote_btn"
+						<button type="button" id="edit_quote_{{ q.id }}" class="btn btn-outline-light edit_quote_btn"
 							data-bs-toggle="modal" data-bs-target="#editquote_{{ q.id }}" data-quote-id="{{ q.id }}"
 							data-quote-content="{{ q.content }}">Edit
 							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"

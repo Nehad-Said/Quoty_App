@@ -1,5 +1,5 @@
 <div class="position-sticky" style="top: 2rem">
-	<div class="p-4 mb-3 bg-body-tertiary rounded">
+	<div class="p-4 mb-3 rounded text-bg">
 		<h4 class="fst-italic">About</h4>
 		<p class="mb-0">
 			Inspire, motivate, advise through a quote. Your opinion is
@@ -10,17 +10,17 @@
 	</div>
 
 	<div>
-		<h4 class="fst-italic">Random Quotes</h4>
-		<ul class="list-unstyled">
+		<h4 class="fst-italic custom-primary">Random Quotes</h4>
+		<ul class="list-unstyled random-quote">
 
 			{% for quote in randQ %}
 
 			<li>
-				<a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top"
+				<a class="d-flex flex-column flex-lg-row gap-3 align-items-start justify-content-center align-items-lg-center py-2 link-body-emphasis text-decoration-none"
 					href="#">
-					<div class="col-lg-8">
+					<div class="col-lg-12">
 						<h6 class="mb-0">"{{ quote.content }}"</h6>
-						<small class="text-body-secondary">by - {{ quote.author }}</small>
+						<small class="text-light">by ~ {{ quote.author }}</small>
 					</div>
 				</a>
 			</li>
@@ -30,7 +30,7 @@
 	</div>
 
 	<div class="p-4">
-		<h4 class="fst-italic">Reach us</h4>
+		<h4 class="fst-italic custom-primary text-decoration-underline">Reach us</h4>
 		<ol class="list-unstyled">
 			<li><a href="https://github.com/Nehad-Said/Quoty_App">GitHub</a></li>
 			<li><a href="https://www.linkedin.com/">LinkedIn</a></li>
