@@ -23,7 +23,7 @@ def getRandQuote():
         r.raise_for_status()
         return r.json()
     except requests.exceptions.RequestException as e:
-        abort(400, description="Couldn't reach external server, try again later.!")
+        abort(400, description="Couldn't reach external server, probably check your internet or try again later.!")
       
 
 # Format the date to get elapsed time
